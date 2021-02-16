@@ -27,6 +27,7 @@ class ClientsManager extends PDO {
         }
     }
 
+    // DEBUG FUNCTION
     function wipe()
     {
         $queryA = $this->prepare("DELETE FROM client");
@@ -122,13 +123,21 @@ class ClientsManager extends PDO {
 
     public function alterClient(array $client)
     {
-        $query = $this->prepare('UPDATE CLIENT 
-        SET nom='.$client['nom'].',
-            prenom='.$client['prenom'].',
-            telephone='.$client['telephone'].
-        'WHERE id='.$client['id']);
-        $query->execute();
+        $this->wipe();
 
-        return $query->fetchAll(PDO::FETCH_OBJ);
+        try {
+            $query = $this->prepare('UPDATE CLIENT 
+            SET nom='.$client['nom'].',
+                prenom='.$client['prenom'].',
+                telephone='.$client['telephone'].
+            'WHERE id='.$client['id']);
+    
+            $query->execute();
+    
+            return json_encode($query->fetchAll(PDO::FETCH_OBJ));
+        }
+        catch(PDOException $e) {
+            return "{message: ".$e->getMessage()."}";
+        }
     }
 }
