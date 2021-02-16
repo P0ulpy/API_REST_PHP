@@ -30,12 +30,12 @@ return function (App $app) {
         
         //$client = 
 
-        /*$client = array(
+        $client = array(
             "id" => $args['id'],
             "nom" => $args['nom'],
             "prenom" => $args['prenom'],
             "telephone" => $args['telephone']
-        );*/
+        );
 
         $res = $clientManager->addClient($client);
         $response->getBody()->write($res);
