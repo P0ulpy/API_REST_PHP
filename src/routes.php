@@ -26,25 +26,29 @@ return function (App $app) {
         return $response->withHeader('Content-Type', 'application/json');
     });
 
+    $app->delete('/deleteClient/{id}', function (Request $request, Response $response, array $args) use ($clientManager) {
+        
+        $res = $clientManager->deleteClient($args['id']);
+        $response->getBody()->write($res);
+
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
     $app->post('/addClient', function (Request $request, Response $response, array $args) use ($clientManager) {
         
         $client = json_decode($request->getBody());
-        var_dump($client);
 
-        $res = $clientManager->addClient($client);
+        $res = $clientManager->addClient((array)$client);
         $response->getBody()->write($res);
 
         return $response->withHeader('Content-Type', 'application/json');
     });
     
-
-
-
-
-
-    $app->delete('/deleteClient/{id}', function (Request $request, Response $response, array $args) use ($clientManager) {
+    $app->put('/alterClient/{id}', function (Request $request, Response $response, array $args) use ($clientManager) {
         
-        $res = $clientManager->deleteClient($args['id']);
+        $client = json_decode($request->getBody());
+
+        $res = $clientManager->alterClient($args['id'], (array)$client);
         $response->getBody()->write($res);
 
         return $response->withHeader('Content-Type', 'application/json');

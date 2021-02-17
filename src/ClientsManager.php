@@ -61,28 +61,30 @@ class ClientsManager extends PDO {
 
     public function getClients()
     {
-        try {
+        try 
+        {
             $query = $this->prepare('SELECT * FROM client');
             $query->execute();
+
+            return json_encode($query->fetchAll(PDO::FETCH_OBJ));
         }
         catch(PDOException $e) {
             return "{message: ".$e->getMessage()."}";
         }
-
-        return json_encode($query->fetchAll(PDO::FETCH_OBJ));
     }
 
     public function getClient($id)
     {
-        try {
+        try 
+        {
             $query = $this->prepare('SELECT * FROM client WHERE id='.$id);
             $query->execute();
+
+            return json_encode($query->fetch(PDO::FETCH_OBJ));
         }
         catch(PDOException $e) {
             return "{message: ".$e->getMessage()."}";
         }
-
-        return json_encode($query->fetch(PDO::FETCH_OBJ));
     }
 
     public function deleteClient($id)
@@ -92,46 +94,48 @@ class ClientsManager extends PDO {
         try {
             $query = $this->prepare('DELETE FROM client WHERE id='.$id);
             $query->execute();
+
+            return '{message: "success"}';
         }
         catch(PDOException $e) {
             return "{message: ".$e->getMessage()."}";
         }
-
-        return '{message: "success"}';
     }
 
-    public function addClient(stdClass $client)
+    public function addClient(array $client)
     {
         $this->wipe();
 
         try {
             $query = $this->prepare('INSERT INTO CLIENT VALUES 
-            ('.$client->id.',
-            "'.$client->nom.'",
-            "'.$client->prenom.'",
-            "'.$client->telephone.'")');
+            ('.(isset($client['id']) ? $client['id'] : "").',
+            "'.(isset($client['nom']) ? $client['nom'] : "").'",
+            "'.(isset($client['prenom']) ? $client['prenom'] : "").'",
+            "'.(isset($client['telephone']) ? $client['telephone'] : "").'")');
     
             $query->execute();
+            
+            return '{message: "success"}';
         }
         catch(PDOException $e) {
             return "{message: ".$e->getMessage()."}";
         }
     }
 
-    public function alterClient(stdClass $client)
+    public function alterClient(int $id, array $client)
     {
         $this->wipe();
 
         try {
             $query = $this->prepare('UPDATE CLIENT 
-            SET nom='.$client['nom'].',
-                prenom='.$client['prenom'].',
-                telephone='.$client['telephone'].
-            'WHERE id='.$client['id']);
+            SET nom="'.(isset($client['nom']) ? $client['nom'] : "").'",
+                prenom="'.(isset($client['prenom']) ? $client['prenom'] : "").'",
+                telephone="'.(isset($client['telephone']) ? $client['telephone'] : "").'"
+                WHERE id='.$id);
     
             $query->execute();
     
-            return json_encode($query->fetchAll(PDO::FETCH_OBJ));
+            return '{message: "success"}';
         }
         catch(PDOException $e) {
             return "{message: ".$e->getMessage()."}";
