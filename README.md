@@ -2,7 +2,7 @@
 
 ## Install MySQL database
 
-db file : https://raw.githubusercontent.com/P0ulpy/API_REST_PHP/main/api_rest_php.sql
+db file : https://github.com/P0ulpy/API_REST_PHP/blob/main/api_rest_php.sql
 
 ## Manual start
 
@@ -18,4 +18,4 @@ I made a postman collection
 
 download postman : https://www.postman.com/downloads/
 
-postman collection file : https://raw.githubusercontent.com/P0ulpy/API_REST_PHP/main/api_rest_php.sql
+postman collection file : https://github.com/P0ulpy/API_REST_PHP/blob/main/TP%20API%20REST%20PHP.postman_collection.json
