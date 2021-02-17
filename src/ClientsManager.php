@@ -100,28 +100,25 @@ class ClientsManager extends PDO {
         return '{message: "success"}';
     }
 
-    public function addClient(array $client)
+    public function addClient(stdClass $client)
     {
         $this->wipe();
 
         try {
             $query = $this->prepare('INSERT INTO CLIENT VALUES 
-            ('.$client['id'].',
-            '.$client['nom'].',
-            '.$client['prenom'].',
-            '.$client['telephone'].
-            ')');
+            ('.$client->id.',
+            "'.$client->nom.'",
+            "'.$client->prenom.'",
+            "'.$client->telephone.'")');
     
             $query->execute();
-    
-            return json_encode($query->fetchAll(PDO::FETCH_OBJ));
         }
         catch(PDOException $e) {
             return "{message: ".$e->getMessage()."}";
         }
     }
 
-    public function alterClient(array $client)
+    public function alterClient(stdClass $client)
     {
         $this->wipe();
 
